@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ketaba-ocr"
+version = "1.0.0"
+description = "Arabic Handwritten Text Recognition - 1st Place at NakbaNLP 2026"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Hassan Barmandah", email = "s445001043@uqu.edu.sa"},
+    {name = "Fatimah Emad Eldin"},
+    {name = "Khloud Al Jallad"},
+    {name = "Omar Nacer"},
+]
+keywords = [
+    "arabic",
+    "ocr",
+    "handwritten-text-recognition",
+    "lora",
+    "qlora",
+    "vision-language",
+    "manuscript",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.45.0",
+    "accelerate>=0.26.0",
+    "peft>=0.14.0",
+    "bitsandbytes>=0.43.0",
+    "qwen-vl-utils==0.0.8",
+    "Pillow>=10.0.0",
+    "datasets>=2.16.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "tqdm",
+    "psutil",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+]
+flash-attn = [
+    "flash-attn>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/HasanBGit/Ketab-OCR-LoRA"
+Documentation = "https://github.com/HasanBGit/Ketab-OCR-LoRA#readme"
+Repository = "https://github.com/HasanBGit/Ketab-OCR-LoRA"
+"Bug Tracker" = "https://github.com/HasanBGit/Ketab-OCR-LoRA/issues"
+"HuggingFace" = "https://huggingface.co/HassanB4/Ketab-OCR-LoRA"
+
+[project.scripts]
+ketaba-train = "scripts.train:main"
+ketaba-inference = "scripts.inference:main"
+ketaba-ensemble = "scripts.ensemble:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "scripts*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100

@@ -1,0 +1,26 @@
+# Core ML
+torch>=2.0.0
+transformers>=4.45.0
+accelerate>=0.26.0
+peft>=0.14.0
+
+# Quantization
+bitsandbytes>=0.43.0
+
+# Vision-Language
+qwen-vl-utils==0.0.8
+
+# Image Processing
+Pillow>=10.0.0
+
+# Data Processing
+datasets>=2.16.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Utilities
+tqdm
+psutil
+
+# Optional: Flash Attention (requires compatible GPU)
+# flash-attn>=2.0.0

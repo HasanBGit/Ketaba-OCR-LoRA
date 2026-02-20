@@ -1,0 +1,72 @@
+# Ketaba-OCR Training Configuration
+# QLoRA fine-tuning parameters for Arabic HTR
+
+# Model Configuration
+model:
+  model_id: "sherif1313/Arabic-English-handwritten-OCR-v3"
+  model_tag: "ketaba_ocr_lora"
+
+# LoRA Configuration
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  use_dora: true
+  use_rslora: true
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+# Quantization
+quantization:
+  load_in_4bit: true
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_compute_dtype: "bfloat16"
+  bnb_4bit_use_double_quant: true
+
+# Training Hyperparameters
+training:
+  batch_size: 1
+  gradient_accumulation_steps: 4
+  # effective_batch_size: 4
+  num_epochs: 1
+  learning_rate: 2e-5
+  lr_scheduler_type: "cosine"
+  warmup_steps: 200
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+
+# Sequence Settings
+sequence:
+  max_seq_length: 2048
+  max_image_size: 1024
+
+# Chunked Training
+chunked:
+  files_per_chunk: 1000
+  start_chunk: 0
+  num_chunks: null  # null = all chunks
+
+# Evaluation & Saving
+evaluation:
+  eval_steps: 500
+  save_steps: 500
+  save_total_limit: 3
+
+# Paths (auto-detected based on environment)
+# paths:
+#   train_dataset_path: "/path/to/ARABIC_OCR_FINAL"
+#   test_data_path: "/path/to/data/test"
+#   output_dir: "/path/to/checkpoints/hrt_lora"
+#   results_dir: "/path/to/results/hrt_lora"
+#   logs_dir: "/path/to/logs/hrt_lora"
+
+# Misc
+misc:
+  seed: 42
+  dataloader_num_workers: 0
