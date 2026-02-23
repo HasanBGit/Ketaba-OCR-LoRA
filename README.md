@@ -140,17 +140,6 @@ weights = normalize((1 - CER) + (CER < 0.15) * 0.5)
 
 This applies a linear decay based on CER, plus a bonus weight of 0.5 for models with CER below 0.15 (rewarding the top 2 performers).
 
-**Models in Ensemble (6 variants):**
-
-| Model Variant | CER | Gets Boost |
-| :--- | :---: | :---: |
-| Fine-tuned HRT (submission_1) | 0.09 | ✓ |
-| Fine-tuned HRT (blind_inference) | 0.11 | ✓ |
-| LoRA HRT (blind_hrt_lora) | 0.18 | — |
-| Zero-shot HRT (blind_test) | 0.20 | — |
-| Fine-tuned QARI (blind_qari) | 0.26 | — |
-| Arabic OCR 4-bit v2 | 0.32 | — |
-
 The ensemble algorithm uses:
 
 1. **Weighted Majority Voting**: Predictions exceeding 50% weighted consensus are selected directly
