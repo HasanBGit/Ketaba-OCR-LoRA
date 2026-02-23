@@ -104,22 +104,21 @@ The system employs QLoRA fine-tuning of a specialized pretrained HTR model, rath
 
 ### Training Data
 
-The model was fine-tuned on the official NakbaNLP 2026 dataset from the Omar Al-Saleh Memoir Collection:
+The model was fine-tuned on the official NakbaNLP 2026 dataset from the Omar Al-Saleh Memoir Collection. We trained on the **full available dataset** (train + dev test combined):
 
 | Split | Samples | Description |
 | :--- | :---: | :--- |
-| Training | 15,962 | Line images with gold transcriptions |
-| Development | 1,774 | Line images for validation |
-| Test (Blind) | 2,095 | Held-out for official evaluation |
+| **Training (Used)** | **18,057** | Train (15,962) + Dev Test (2,095) combined |
+| Blind Test | 2,671 | Held-out for official CodaBench evaluation |
 
 ### Hyperparameters
 
 | Parameter | Value | Parameter | Value |
 | :--- | :--- | :--- | :--- |
-| **Base Model** | sherif1313/Arabic-English-OCR-v3 | **Architecture** | Vision-Language Transformer |
-| **Model Size** | ~4.07B parameters | **Pretraining Data** | Kitab, IAM, Custom |
+| **Base Model** | sherif1313/Arabic-English-OCR-v3 | **Architecture** | Qwen2.5-VL-3B |
+| **Model Size** | ~4.07B parameters | **Trainable Params** | 75.6M (1.97%) |
 | **Quantization** | 4-bit NF4 (QLoRA) | **Compute Dtype** | bfloat16 |
-| **Double Quant** | True | | |
+| **Double Quant** | True | **Pretraining Data** | Kitab, IAM, Custom |
 | **LoRA Rank (r)** | 32 | **LoRA Alpha (α)** | 64 |
 | **Target Modules** | q, k, v, o, gate, up, down | **LoRA Dropout** | 0.05 |
 | **DoRA** | True | **RSLoRA** | True |
@@ -132,13 +131,27 @@ The model was fine-tuned on the official NakbaNLP 2026 dataset from the Omar Al-
 
 ### Ensemble Strategy
 
-Our final submission employs a **Linear+Boost** weighted ensemble combining predictions from six model configurations:
+Our final submission employs a **Linear+Boost** weighted ensemble (Config 18) combining predictions from six model variants:
 
-```
-w_i = normalize((1 - CER_i) + 1[CER_i < 0.15] × 0.5)
+```python
+# Config 18: Linear+Boost<0.15
+weights = normalize((1 - CER) + (CER < 0.15) * 0.5)
 ```
 
-This applies a linear decay based on CER, plus a bonus of 0.5 for models with CER below 0.15. The ensemble algorithm uses:
+This applies a linear decay based on CER, plus a bonus weight of 0.5 for models with CER below 0.15 (rewarding the top 2 performers).
+
+**Models in Ensemble (6 variants):**
+
+| Model Variant | CER | Gets Boost |
+| :--- | :---: | :---: |
+| Fine-tuned HRT (submission_1) | 0.09 | ✓ |
+| Fine-tuned HRT (blind_inference) | 0.11 | ✓ |
+| LoRA HRT (blind_hrt_lora) | 0.18 | — |
+| Zero-shot HRT (blind_test) | 0.20 | — |
+| Fine-tuned QARI (blind_qari) | 0.26 | — |
+| Arabic OCR 4-bit v2 | 0.32 | — |
+
+The ensemble algorithm uses:
 
 1. **Weighted Majority Voting**: Predictions exceeding 50% weighted consensus are selected directly
 2. **Arabic Normalization**: For disagreements, normalize alef variants and teh marbuta before voting
