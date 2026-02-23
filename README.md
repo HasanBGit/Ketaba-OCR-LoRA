@@ -6,11 +6,11 @@
 
 This repository contains the official models and results for **Ketaba-OCR**, the **1st place winning** submission to the **[NakbaNLP 2026 Shared Task](https://acrps.ai/nakba-nlp-manu-understanding-2026)** on Arabic Manuscript Understanding (Subtask 2: Systems Track).
 
-#### By: [Hassan Barmandah](https://scholar.google.com/citations?user=XXXXX), [Fatimah Emad Eldin](https://scholar.google.com/citations?user=CfX6eA8AAAAJ&hl=ar), [Khloud Al Jallad](https://scholar.google.com/citations?user=XXXXX), [Omar Nacer](https://scholar.google.com/citations?user=XXXXX)
+#### By: [Hassan Barmandah](https://scholar.google.com/citations?user=2VzOr0kAAAAJ&hl=en), [Fatimah Emad Eldin](https://scholar.google.com/citations?user=CfX6eA8AAAAJ&hl=ar), [Khloud Al Jallad](https://scholar.google.com/citations?user=A0EvL6cAAAAJ&hl=ar), [Omar Nacer](https://scholar.google.com/citations?user=pezf5FYAAAAJ&hl=en)
 
 [![Paper](https://img.shields.io/badge/arXiv-26XX.XXXXX-b31b1b.svg)](https://arxiv.org/abs/26XX.XXXXX)
 [![Code](https://img.shields.io/badge/GitHub-Code-blue)](https://github.com/HasanBGit/Ketab-OCR-LoRA)
-[![HuggingFace](https://img.shields.io/badge/HuggingFace-Page-F9D371)](https://huggingface.co/HassanB4/Ketab-OCR-LoRA)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-Page-F9D371)](https://huggingface.co/collections/HassanB4/nakba-nlp-2026-arabic-manuscript-understanding-shared-task)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey)](LICENSE)
 
 ---
