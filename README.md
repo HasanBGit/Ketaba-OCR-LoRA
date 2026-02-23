@@ -8,9 +8,10 @@ This repository contains the official models and results for **Ketaba-OCR**, the
 
 #### By: [Hassan Barmandah](https://scholar.google.com/citations?user=2VzOr0kAAAAJ&hl=en), [Fatimah Emad Eldin](https://scholar.google.com/citations?user=CfX6eA8AAAAJ&hl=ar), [Khloud Al Jallad](https://scholar.google.com/citations?user=A0EvL6cAAAAJ&hl=ar), [Omar Nacer](https://scholar.google.com/citations?user=pezf5FYAAAAJ&hl=en)
 
-[![Paper](https://img.shields.io/badge/arXiv-26XX.XXXXX-b31b1b.svg)](https://arxiv.org/abs/26XX.XXXXX)
+
 [![Code](https://img.shields.io/badge/GitHub-Code-blue)](https://github.com/HasanBGit/Ketab-OCR-LoRA)
-[![HuggingFace](https://img.shields.io/badge/HuggingFace-Page-F9D371)](https://huggingface.co/collections/HassanB4/nakba-nlp-2026-arabic-manuscript-understanding-shared-task)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-Page-F9D371?logo=huggingface&logoColor=black)](https://huggingface.co/collections/HassanB4/nakba-nlp-2026-arabic-manuscript-understanding-shared-task)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1eKVDxrgMlyBLhDnW_0Gdm2kHC1153N7j?usp=sharing)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey)](LICENSE)
 
 ---
