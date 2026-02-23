@@ -93,6 +93,7 @@ with torch.no_grad():
 
 transcription = processor.decode(output_ids[0][len(inputs['input_ids'][0]):], skip_special_tokens=True)
 print(transcription)
+
 ```
 
 ---
