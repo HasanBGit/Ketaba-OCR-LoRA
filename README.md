@@ -1,7 +1,7 @@
 # Ketaba-OCR at NakbaNLP 2026 Shared Task: Efficient Adaptation of Vision-Language Models for Handwritten Text Recognition
 
 <p align="center">
-<img src="https://placehold.co/800x200/fef3c7/d97706?text=Ketab-Manuscript-OCR" alt="Arabic Manuscript OCR">
+<img src="https://placehold.co/800x200/fef3c7/d97706?text=Ketaba-Manuscript-OCR" alt="Arabic Manuscript OCR">
 </p>
 
 This repository contains the official models and results for **Ketaba-OCR**, the **1st place winning** submission to the **[NakbaNLP 2026 Shared Task](https://acrps.ai/nakba-nlp-manu-understanding-2026)** on Arabic Manuscript Understanding (Subtask 2: Systems Track).
