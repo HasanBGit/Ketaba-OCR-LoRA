@@ -1,12 +1,12 @@
-# Ketaba-OCR at NakbaNLP 2026 Shared Task: Efficient Adaptation of Vision-Language Models for Handwritten Text Recognition
+# Ketaba-OCR at AR-MS NakbaNLP 2026: Efficient Adaptation of Vision-Language Models for Handwritten Text Recognition
 
 <p align="center">
-<img src="https://placehold.co/800x200/fef3c7/d97706?text=Ketaba-Manuscript-OCR" alt="Arabic Manuscript OCR">
+<img src="https://placehold.co/800x200/fef3c7/d97706?text=Ketab-Manuscript-OCR" alt="Arabic Manuscript OCR">
 </p>
 
-This repository contains the official models and results for **Ketaba-OCR**, the **1st place winning** submission to the **[NakbaNLP 2026 Shared Task](https://acrps.ai/nakba-nlp-manu-understanding-2026)** on Arabic Manuscript Understanding (Subtask 2: Systems Track).
+This repository contains the official models and results for **Ketaba-OCR**, our submission to the **[NakbaNLP 2026 Shared Task](https://acrps.ai/nakba-nlp-manu-understanding-2026)** (AR-MS) on Arabic Manuscript Understanding (Subtask 2: Systems Track). We rank **1st on per-line evaluation** (CER 0.0819, WER 0.2588) and **3rd on the official (corpus-wide) leaderboard** (CER 0.0938, WER 0.2996).
 
-#### By: [Hassan Barmandah](https://scholar.google.com/citations?user=2VzOr0kAAAAJ&hl=en), [Fatimah Emad Eldin](https://scholar.google.com/citations?user=CfX6eA8AAAAJ&hl=ar), [Khloud Al Jallad](https://scholar.google.com/citations?user=A0EvL6cAAAAJ&hl=ar), [Omar Nacer](https://scholar.google.com/citations?user=pezf5FYAAAAJ&hl=en)
+#### By: [Hassan Barmandah](https://scholar.google.com/citations?user=2VzOr0kAAAAJ&hl=en), [Fatimah Emad Eldin](https://scholar.google.com/citations?user=CfX6eA8AAAAJ&hl=ar), [Khloud Al Jallad](https://scholar.google.com/citations?user=A0EvL6cAAAAJ&hl=ar), [Omer Nacar](https://scholar.google.com/citations?user=pezf5FYAAAAJ&hl=en) — NAMAA Community (with Umm Al-Qura University, Trouve Labs, Syrian Society for Startups and Research, Tuwaiq Academy)
 
 
 [![Code](https://img.shields.io/badge/GitHub-Code-blue)](https://github.com/HasanBGit/Ketab-OCR-LoRA)
@@ -20,16 +20,16 @@ This repository contains the official models and results for **Ketaba-OCR**, the
 
 This project introduces a **parameter-efficient approach** for Arabic handwritten text recognition (HTR) on historical manuscripts. The system is built upon Sherif's pretrained Arabic-English HTR model, which leverages prior training on diverse handwritten datasets including Kitab and IAM. Rather than training from scratch, we fine-tune the HTR backbone using **Low-Rank Adaptation (LoRA)** with 4-bit quantization (QLoRA), along with DoRA and RSLoRA for improved training stability.
 
-A key element of this system is its ensemble strategy using a novel **Linear+Boost weighted voting scheme**. This approach proved to be highly effective, achieving **1st place** on the official leaderboard with a Character Error Rate (CER) of **0.0819** and Word Error Rate (WER) of **0.2588** on the blind test set.
+A key element of this system is its ensemble strategy using a novel **Linear+Boost weighted voting scheme**. The task reports two evaluation schemes: **corpus-wide** (entire test set as one sequence; used for official ranking) and **per-line** (CER/WER averaged over examples). We achieve **1st place on per-line evaluation** with CER **0.0819** and WER **0.2588**, and **3rd place on the official (corpus-wide) leaderboard** with CER 0.0938 and WER 0.2996.
 
 The model transcribes cropped line images from Arabic manuscripts into machine-readable text, specifically optimized for the **Omar Al-Saleh Memoir Collection** (1951-1965) written in Ruq'ah and Naskh script variants.
 
 ### Key Contributions
 
-* **Ranking & Performance**: Secured **1st place** on the official leaderboard with CER 0.082 and WER 0.259
+* **Ranking & Performance**: **1st place on per-line evaluation** (CER 0.082, WER 0.259) and **3rd place on the official corpus-wide leaderboard** (CER 0.0938, WER 0.2996)
 * **HTR vs. Generalist VLMs**: Demonstrated that specialized fine-tuned HTR models drastically outperform zero-shot generalist VLMs
-* **Parameter Efficiency**: QLoRA efficiently bridged the domain gap, reducing CER from 0.58 to 0.08 with minimal computational overhead (~8GB VRAM)
-* **Ensemble Innovation**: Linear+Boost weighting strategy improved CER by 7.4% over standard inverse-CER weighting
+* **Parameter Efficiency**: QLoRA efficiently bridged the domain gap, reducing CER from 0.58 to ~0.09 with minimal computational overhead (~8GB VRAM)
+* **Ensemble Innovation**: Linear+Boost weighting strategy improved CER by 7.4% over standard inverse-CER weighting (on per-line evaluation)
 
 ---
 
@@ -140,6 +140,17 @@ weights = normalize((1 - CER) + (CER < 0.15) * 0.5)
 
 This applies a linear decay based on CER, plus a bonus weight of 0.5 for models with CER below 0.15 (rewarding the top 2 performers).
 
+**Models in Ensemble (6 variants):**
+
+| Model Variant | CER | Gets Boost |
+| :--- | :---: | :---: |
+| Fine-tuned HRT (submission_1) | 0.09 | ✓ |
+| Fine-tuned HRT (blind_inference) | 0.11 | ✓ |
+| LoRA HRT (blind_hrt_lora) | 0.18 | — |
+| Zero-shot HRT (blind_test) | 0.20 | — |
+| Fine-tuned QARI (blind_qari) | 0.26 | — |
+| Arabic OCR 4-bit v2 | 0.32 | — |
+
 The ensemble algorithm uses:
 
 1. **Weighted Majority Voting**: Predictions exceeding 50% weighted consensus are selected directly
@@ -159,9 +170,16 @@ The ensemble algorithm uses:
 
 ## 📊 Evaluation Results
 
-The models were evaluated on the blind test set provided by the NakbaNLP 2026 organizers. The primary metric is **Character Error Rate (CER)**, computed as normalized Levenshtein distance.
+The task reports **two evaluation schemes**: (1) **Corpus-wide**: entire test set as a single sequence (used for the official ranking); (2) **Per-line**: CER/WER computed per example then averaged. The primary metric is **Character Error Rate (CER)**.
 
-### Final Test Set Scores
+### Our Results
+
+| Evaluation | Rank | CER | WER |
+| :--- | :---: | :---: | :---: |
+| **Per-line** | **1st** | **0.0819** | **0.2588** |
+| **Corpus-wide (official)** | **3rd** | **0.0938** | **0.2996** |
+
+### Final Test Set Scores (Per-Line)
 
 | System | Test CER | Test WER | Blind CER | Blind WER |
 | :--- | :---: | :---: | :---: | :---: |
@@ -174,7 +192,7 @@ The models were evaluated on the blind test set provided by the NakbaNLP 2026 or
 
 | Model | Blind CER | Blind WER |
 | :--- | :---: | :---: |
-| **Ketaba-OCR (Ours)** | **0.0819** | **0.2588** |
+| **Ketaba-OCR (Ours)** | **0.0819** (per-line) | **0.2588** (per-line) |
 | Fine-Tuned QARI-3 | 0.2635 | 0.5521 |
 | Arabic OCR 4-bit (Sherif) | 0.3234 | 0.6203 |
 | Qwen2.5-VL-7B (Zero-Shot) | 0.6808 | 0.9198 |
@@ -185,7 +203,7 @@ The models were evaluated on the blind test set provided by the NakbaNLP 2026 or
 ## ⚠️ Limitations
 
 * **Domain Specificity**: Optimized for 1950s Ruq'ah/Naskh manuscripts; requires adaptation for other periods/styles
-* **Agglutination Gap**: WER (0.26) is disproportionately higher than CER (0.08) due to Arabic's agglutinative structure
+* **Agglutination Gap**: WER (0.26–0.30) is disproportionately higher than CER (0.08–0.09) due to Arabic's agglutinative structure
 * **Degraded Images**: Performance degrades on severely faded or damaged manuscript regions
 * **Generalization**: Not tested on other historical Arabic manuscript collections
 
@@ -209,11 +227,11 @@ If you use this work, please cite the paper:
 
 ```bibtex
 @inproceedings{barmandah2026ketaba,
-    title={{Ketaba-OCR at NakbaNLP 2026 Shared Task: Efficient Adaptation of Vision-Language Models for Handwritten Text Recognition}},
-    author={Barmandah, Hassan and Eldin, Fatimah Emad and Al Jallad, Khloud and Nacer, Omar},
+    title={{Ketaba-OCR at AR-MS NakbaNLP 2026: Efficient Adaptation of Vision-Language Models for Hand Written Recognition}},
+    author={Barmandah, Hassan and Eldin, Fatimah Emad and Al Jallad, Khloud and Nacar, Omer},
     year={2026},
-    booktitle={Proceedings of the 2nd International Workshop on Nakba Narratives as Language Resources (NakbaNLP 2026)},
-    publisher={RASD}
+    booktitle={Proceedings of LREC 2026},
+    note={NakbaNLP 2026 Shared Task}
 }
 ```
 
